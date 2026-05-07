@@ -1,0 +1,43 @@
+# 環境・秘密情報
+/.env*
+/config/master.key
+/config/credentials/*.key
+
+# バンドラー
+/.bundle
+/vendor/bundle
+
+# ログ・一時ファイル
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/.keep
+!/tmp/storage/.keep
+
+# ビルド成果物（Tailwind・Sass）
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# アップロードファイル
+/storage/*
+!/storage/.keep
+
+# データベース
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# node
+/node_modules
+
+# Kamal / CI（不使用）
+/.kamal
+/.github
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.claude/

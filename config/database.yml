@@ -1,0 +1,21 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("DB_USERNAME", "fp_user") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "fp_password") %>
+  host: <%= ENV.fetch("DB_HOST", "db") %>
+
+development:
+  <<: *default
+  database: fp_reservation_development
+
+test:
+  <<: *default
+  database: fp_reservation_test
+
+production:
+  <<: *default
+  database: fp_reservation_production
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>

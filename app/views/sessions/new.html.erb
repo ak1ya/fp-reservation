@@ -1,0 +1,106 @@
+<% content_for :title, "ログイン - FP予約システム" %>
+
+<div class="max-w-md mx-auto">
+  <div class="text-center mb-8">
+    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <span class="text-white font-bold text-2xl">FP</span>
+    </div>
+    <h1 class="text-2xl font-bold text-slate-800">ログイン</h1>
+    <p class="text-slate-500 text-sm mt-2">アカウントを選択してください</p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" data-controller="login-tabs">
+    <div class="flex border-b border-slate-100" id="login-tabs">
+      <button
+        type="button"
+        class="flex-1 py-4 text-sm font-medium transition-colors tab-btn active-tab"
+        data-tab="user"
+        onclick="switchTab('user')"
+      >
+        ユーザーとしてログイン
+      </button>
+      <button
+        type="button"
+        class="flex-1 py-4 text-sm font-medium transition-colors tab-btn"
+        data-tab="fp"
+        onclick="switchTab('fp')"
+      >
+        FPとしてログイン
+      </button>
+    </div>
+
+    <div class="p-6">
+      <div id="tab-user">
+        <% if @users.any? %>
+          <p class="text-slate-500 text-sm mb-4">ログインするユーザーを選択してください</p>
+          <div class="space-y-2 max-h-64 overflow-y-auto">
+            <% @users.each do |user| %>
+              <%= button_to login_path, method: :post, params: { user_id: user.id },
+                  class: "w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 border border-slate-100 hover:border-blue-200 transition-all text-left" do %>
+                <div class="w-10 h-10 bg-gradient-to-br from-slate-400 to-slate-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                  <%= user.name[0] %>
+                </div>
+                <div class="text-left">
+                  <div class="font-medium text-slate-800"><%= user.name %></div>
+                  <div class="text-xs text-slate-400"><%= user.email %></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8 text-slate-400">
+            <p class="mb-4">登録済みのユーザーがいません</p>
+            <%= link_to "ユーザー登録する", register_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div id="tab-fp" class="hidden">
+        <% if @fps.any? %>
+          <p class="text-slate-500 text-sm mb-4">ログインするFPを選択してください</p>
+          <div class="space-y-2 max-h-64 overflow-y-auto">
+            <% @fps.each do |fp| %>
+              <%= button_to login_path, method: :post, params: { user_id: fp.id },
+                  class: "w-full flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 border border-slate-100 hover:border-blue-200 transition-all text-left" do %>
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                  <%= fp.name[0] %>
+                </div>
+                <div class="text-left">
+                  <div class="font-medium text-slate-800"><%= fp.name %></div>
+                  <div class="text-xs text-slate-400"><%= fp.email %></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8 text-slate-400">
+            <p class="mb-4">登録済みのFPがいません</p>
+            <%= link_to "FP登録する", register_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-100 px-6 py-4 bg-slate-50">
+      <p class="text-center text-sm text-slate-500">
+        アカウントをお持ちでない方は
+        <%= link_to "こちらから登録", register_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .active-tab { color: #2563eb; border-bottom: 2px solid #2563eb; }
+  .tab-btn:not(.active-tab) { color: #64748b; }
+</style>
+
+<script>
+  function switchTab(tab) {
+    document.getElementById('tab-user').classList.toggle('hidden', tab !== 'user');
+    document.getElementById('tab-fp').classList.toggle('hidden', tab !== 'fp');
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active-tab', btn.dataset.tab === tab);
+    });
+  }
+</script>

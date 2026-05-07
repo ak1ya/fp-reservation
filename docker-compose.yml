@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: fp_reservation_development
+      MYSQL_USER: fp_user
+      MYSQL_PASSWORD: fp_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    command: >
+      bash -c "
+        bundle exec rails db:create RAILS_ENV=development 2>/dev/null || true;
+        bundle exec rails db:migrate RAILS_ENV=development;
+        bundle exec rails db:seed RAILS_ENV=development 2>/dev/null || true;
+        bundle exec rails tailwindcss:build dartsass:build;
+        bundle exec foreman start -f Procfile.dev
+      "
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3001:3000"
+    environment:
+      RAILS_ENV: development
+      DB_HOST: db
+      DB_USERNAME: fp_user
+      DB_PASSWORD: fp_password
+    depends_on:
+      db:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
+volumes:
+  mysql_data:
+  bundle_cache:

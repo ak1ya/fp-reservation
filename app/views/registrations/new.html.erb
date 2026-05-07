@@ -1,0 +1,72 @@
+<% content_for :title, "新規登録 - FP予約システム" %>
+
+<div class="max-w-md mx-auto">
+  <div class="text-center mb-8">
+    <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+    </div>
+    <h1 class="text-2xl font-bold text-slate-800">新規登録</h1>
+    <p class="text-slate-500 text-sm mt-2">アカウント情報を入力してください</p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+    <%= form_with model: @user, url: register_path, class: "space-y-5" do |f| %>
+      <% if @user.errors.any? %>
+        <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+          <ul class="text-red-600 text-sm space-y-1">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :name, "お名前", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+        <%= f.text_field :name, class: "w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400", placeholder: "例: 山田 太郎" %>
+      </div>
+
+      <div>
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+        <%= f.email_field :email, class: "w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-slate-800 placeholder-slate-400", placeholder: "例: taro@example.com" %>
+      </div>
+
+      <div>
+        <span class="block text-sm font-medium text-slate-700 mb-3">登録種別</span>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="relative cursor-pointer">
+            <%= f.radio_button :role, "user", class: "sr-only peer", checked: true %>
+            <div class="flex flex-col items-center p-4 border-2 border-slate-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all hover:border-slate-300">
+              <svg class="w-6 h-6 text-slate-500 peer-checked:text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="text-sm font-medium text-slate-700">ユーザー</span>
+              <span class="text-xs text-slate-400 mt-0.5">相談する側</span>
+            </div>
+          </label>
+          <label class="relative cursor-pointer">
+            <%= f.radio_button :role, "fp", class: "sr-only peer" %>
+            <div class="flex flex-col items-center p-4 border-2 border-slate-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all hover:border-slate-300">
+              <svg class="w-6 h-6 text-slate-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span class="text-sm font-medium text-slate-700">FP</span>
+              <span class="text-xs text-slate-400 mt-0.5">相談を受ける側</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <%= f.submit "登録する", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer" %>
+    <% end %>
+
+    <div class="mt-6 pt-6 border-t border-slate-100 text-center">
+      <p class="text-sm text-slate-500">
+        すでにアカウントをお持ちの方は
+        <%= link_to "こちらからログイン", login_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+      </p>
+    </div>
+  </div>
+</div>

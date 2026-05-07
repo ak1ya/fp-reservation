@@ -1,0 +1,178 @@
+// application.scss - カスタムSassスタイル
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+
+// ========================================
+// 変数定義
+// ========================================
+$primary: #2563eb;
+$primary-dark: #1d4ed8;
+$primary-light: #dbeafe;
+$success: #10b981;
+$warning: #f59e0b;
+$danger: #ef4444;
+$text-base: #1e293b;
+$text-muted: #64748b;
+$border: #e2e8f0;
+$bg-light: #f8fafc;
+
+// ========================================
+// ミックスイン
+// ========================================
+@mixin card {
+  background: white;
+  border-radius: 1rem;
+  border: 1px solid $border;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.15s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ========================================
+// ベーススタイル
+// ========================================
+
+// スロットカードのアニメーション
+.slot-card {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+}
+
+// カレンダーのトランジション
+.calendar-day {
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+// フォームフォーカス
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+
+// タブ切り替えスタイル
+.tab-btn {
+  position: relative;
+
+  &.active-tab {
+    color: $primary;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $primary;
+      border-radius: 1px;
+    }
+  }
+}
+
+// ナビゲーションのホバーアンダーライン
+nav a {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.7);
+    transition: width 0.2s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+// ========================================
+// チェックボックスカードスタイル
+// ========================================
+.slot-checkbox-card {
+  @include card;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  input[type='checkbox']:checked ~ & {
+    background: $primary-light;
+    border-color: $primary;
+  }
+
+  &:hover {
+    border-color: #93c5fd;
+    background: #eff6ff;
+  }
+}
+
+// ========================================
+// ページトランジション
+// ========================================
+.turbo-progress-bar {
+  height: 3px;
+  background: $primary;
+}
+
+// ========================================
+// レスポンシブヘルパー
+// ========================================
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+
+// ========================================
+// スクロールバーカスタマイズ
+// ========================================
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-light;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+
+  &:hover {
+    background: #94a3b8;
+  }
+}
+
+// ========================================
+// プリントスタイル
+// ========================================
+@media print {
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+}
